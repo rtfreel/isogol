@@ -15,15 +15,19 @@ void GameOfLife::setup(){
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> distw(0, _width);
     std::uniform_int_distribution<std::mt19937::result_type> disth(0, _height);
+    std::uniform_int_distribution<std::mt19937::result_type> distc(0, 360);
     std::uniform_real_distribution<float> distf(-2.5f, 2.5f);
 
     _particles = new Particle[_p_count];
     Vector2 force;
+    RGBColor *color;
     for(int i = 0; i < _p_count; i++){
-        _particles[i] = Particle(distw(rng), disth(rng), _p_radius);
         force = Vector2(distf(rng), distf(rng));
+        color = new RGBColor(distc(rng));
+        _particles[i] = Particle(distw(rng), disth(rng), _p_radius);
         _particles[i].applyForce(force);
         _particles[i].setWrap(_width, _height);
+        _particles[i].setColor(color);
     }
 }
 

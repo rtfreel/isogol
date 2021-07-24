@@ -53,4 +53,35 @@ struct Vector2 {
 	}
 };
 
+struct RGBColor {
+    int r, g, b;
+    RGBColor() : r(255), g(255), b(255) {}
+    RGBColor(int r, int g, int b) :
+        r(r), g(g), b(b) {}
+    RGBColor(int hue) {
+        float X = 1 - abs(fmod(hue/60.0, 2)-1);
+        r = 255;
+        g = 255;
+        b = 255;
+        if(hue >= 0 && hue < 60){
+            r *= 1, g *= X, b *= 0;
+        }
+        else if(hue >= 60 && hue < 120){
+            r *= X, g *= 1, b *= 0;
+        }
+        else if(hue >= 120 && hue < 180){
+            r *= 0, g *= 1, b *= X;
+        }
+        else if(hue >= 180 && hue < 240){
+            r *= 0, g *= X, b *= 1;
+        }
+        else if(hue >= 240 && hue < 300){
+            r *= X, g *= 0, b *= 1;
+        }
+        else{
+            r *= 1, g *= 0, b *= X;
+        }
+    }
+};
+
 #endif
