@@ -9,7 +9,7 @@ private:
     bool _wrap = false;
     float _x, _y, _r, _xBound, _yBound;
     Vector2 _vel, _acc;
-    RGBColor *color;
+    RGBColor *color = new RGBColor();
 
     void wraparound();
 

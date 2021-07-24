@@ -1,6 +1,7 @@
 #include "gol.h"
 #include "globals.h"
 
+//#include <iostream>
 #include <random>
 #include <GL/gl.h> 
 #include <GL/glu.h>
@@ -19,6 +20,8 @@ void GameOfLife::setup(){
     std::uniform_real_distribution<float> distf(-2.5f, 2.5f);
 
     _particles = new Particle[_p_count];
+    // _particles[0] = Particle(100, 100, _p_radius);
+    // _particles[0].setWrap(_width, _height);
     Vector2 force;
     RGBColor *color;
     for(int i = 0; i < _p_count; i++){
@@ -32,9 +35,16 @@ void GameOfLife::setup(){
 }
 
 void GameOfLife::handleKeys( unsigned char key, int x, int y ) {
+    y = _height - y;
     switch(key){
         case 'q':
             _running = !_running;
+            break;
+        // case 'r':
+        //     _particles[1] = Particle(x, y, _p_radius);
+        //     _particles[1].setWrap(_width, _height);
+        //     std::cout << _particles[0].vectorTo(_particles[1]).mag() << std::endl;
+        //     break;
     }
 }
 

@@ -79,7 +79,10 @@ void Particle::setWrap(float maxX, float maxY) {
 }
 void Particle::disableWrap() { _wrap = false; }
 
-void Particle::setColor(RGBColor *color) { this->color = color; }
+void Particle::setColor(RGBColor *color) { 
+    delete this->color; 
+    this->color = color; 
+}
 Vector2 Particle::getPos(){ return Vector2(_x, _y); }
 Vector2& Particle::getVel(){ return _vel; }
 Vector2& Particle::getAcc(){ return _acc; }
