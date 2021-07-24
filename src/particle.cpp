@@ -1,7 +1,6 @@
 #include "particle.h"
 
 #include <math.h>
-#include <stdio.h>
 #include <GL/gl.h>
 
 Particle::Particle() : _x(0), _y(0) {}
@@ -12,6 +11,8 @@ void Particle::update() {
     _x += _vel.x;
     _y += _vel.y;
     _acc *= 0;
+    if(_wrap)
+        wraparound();
 }
 
 void Particle::render() {
@@ -23,6 +24,17 @@ void Particle::render() {
         glVertex2i(_x + (cos(heading) * _r), _y + (sin(heading) * _r));
     }
     glEnd();
+}
+
+void Particle::wraparound(){
+    if(_x < 0)
+      _x = _xBound - fmod(abs(_x), _xBound);
+    if(_x > _xBound)
+      _x = fmod(_x, _xBound);
+    if(_y < 0)
+      _y = _yBound - fmod(abs(_y), _yBound);
+    if(_y > _yBound)
+      _y = fmod(_y, _yBound);
 }
 
 void Particle::applyFriction(float mu){
@@ -38,6 +50,13 @@ void Particle::applyFriction(float mu){
 void Particle::applyForce(Vector2 &force){
     _acc += force;
 }
+
+void Particle::setWrap(float maxX, float maxY) {
+    _xBound = maxX;
+    _yBound = maxY;
+    _wrap = true;
+}
+void Particle::disableWrap() { _wrap = false; }
 
 Vector2 Particle::getPos(){ return Vector2(_x, _y); }
 Vector2& Particle::getVel(){ return _vel; }

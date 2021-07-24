@@ -6,8 +6,11 @@
 
 class Particle : public GameObject{
 private:
-    float _x, _y, _r;
+    bool _wrap = false;
+    float _x, _y, _r, _xBound, _yBound;
     Vector2 _vel, _acc;
+
+    void wraparound();
 
 public:
     Particle();
@@ -17,6 +20,9 @@ public:
 
     void applyFriction(float mu);
     void applyForce(Vector2 &force);
+
+    void setWrap(float maxX, float maxY);
+    void disableWrap();
 
     Vector2 getPos();
     Vector2& getVel();

@@ -23,6 +23,7 @@ void GameOfLife::setup(){
         _particles[i] = Particle(distw(rng), disth(rng), _p_radius);
         force = Vector2(distf(rng), distf(rng));
         _particles[i].applyForce(force);
+        _particles[i].setWrap(_width, _height);
     }
 }
 
