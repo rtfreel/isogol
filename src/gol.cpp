@@ -1,13 +1,14 @@
 #include "gol.h"
 #include "globals.h"
 
-//#include <iostream>
+// #include <iostream>
 #include <random>
 #include <GL/gl.h> 
 #include <GL/glu.h>
 
 GameOfLife::GameOfLife(int width, int height) : Game((char*)"Isosurface particle game of life", width, height) {
-    setCount(global::G_SIZE);
+    setGroupCount(global::G_COUNT);
+    setGroupSize(global::G_SIZE);
     setRadius(global::P_RADIUS);
 }
 
@@ -19,18 +20,23 @@ void GameOfLife::setup(){
     std::uniform_int_distribution<std::mt19937::result_type> distc(0, 360);
     std::uniform_real_distribution<float> distf(-2.5f, 2.5f);
 
-    _particles = new Particle[_p_count];
+    _particles = new Particle[this->getTotal()];
     // _particles[0] = Particle(100, 100, _p_radius);
     // _particles[0].setWrap(_width, _height);
     Vector2 force;
     RGBColor *color;
-    for(int i = 0; i < _p_count; i++){
-        force = Vector2(distf(rng), distf(rng));
+    int index;
+    for(int g = 0; g < _g_count; g++) {
         color = new RGBColor(distc(rng));
-        _particles[i] = Particle(distw(rng), disth(rng), _p_radius);
-        _particles[i].applyForce(force);
-        _particles[i].setWrap(_width, _height);
-        _particles[i].setColor(color);
+        for(int i = 0; i < _g_size; i++) {
+            index = (_g_size * g) + i;
+            force = Vector2(distf(rng), distf(rng));
+            _particles[index] = Particle(distw(rng), disth(rng), _p_radius);
+            _particles[index].setType(g);
+            _particles[index].applyForce(force);
+            _particles[index].setWrap(_width, _height);
+            _particles[index].setColor(color);
+        }
     }
 }
 
@@ -57,7 +63,7 @@ void GameOfLife::render(){
     //Render quad
     if( _running )
     {
-        for(int i = 0; i < _p_count; i++){
+        for(int i = 0; i < this->getTotal(); i++){
             _particles[i].update();
             _particles[i].render();
             _particles[i].applyFriction(global::MU);
@@ -65,5 +71,7 @@ void GameOfLife::render(){
     }
 }
 
-void GameOfLife::setCount(int count){ this->_p_count = count; }
+int GameOfLife::getTotal(){ return this->_g_count * this->_g_size; }
+void GameOfLife::setGroupCount(int count){ this->_g_count = count; }
+void GameOfLife::setGroupSize(int size){ this->_g_size = size; }
 void GameOfLife::setRadius(float radius){ this->_p_radius = radius; }

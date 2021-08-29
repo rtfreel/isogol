@@ -14,7 +14,7 @@ namespace global{
 
     // Group
     const int G_COUNT = 3;
-    const int G_SIZE = 1000;
+    const int G_SIZE = 333;
 
     // Particle
     const float P_RADIUS = 2.0f;

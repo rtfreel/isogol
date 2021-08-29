@@ -7,6 +7,7 @@
 class Particle : public GameObject{
 private:
     bool _wrap = false;
+    int type = 0;
     float _x, _y, _r, _xBound, _yBound;
     Vector2 _vel, _acc;
     RGBColor *color = new RGBColor();
@@ -28,6 +29,8 @@ public:
     void disableWrap();
 
     void setColor(RGBColor *color);
+    void setType(int type);
+    int getType();
     Vector2 getPos();
     Vector2& getVel();
     Vector2& getAcc();

@@ -6,7 +6,7 @@
 
 class GameOfLife : public Game{
 private:
-    int _p_count, _g_count, _g_size;
+    int _g_count, _g_size;
     float _p_radius;
     Particle *_particles;
 
@@ -18,8 +18,9 @@ private:
 public:
     GameOfLife(int width, int height);
 
-    void setCount(int count);
-    void setDensity(int density);
+    int getTotal();
+    void setGroupCount(int count);
+    void setGroupSize(int size);
     void setRadius(float radius);
 };
 #endif

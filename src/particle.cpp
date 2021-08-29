@@ -83,6 +83,8 @@ void Particle::setColor(RGBColor *color) {
     delete this->color; 
     this->color = color; 
 }
+void Particle::setType(int type){ this->type = type; }
+int Particle::getType(){ return this->type; };
 Vector2 Particle::getPos(){ return Vector2(_x, _y); }
 Vector2& Particle::getVel(){ return _vel; }
 Vector2& Particle::getAcc(){ return _acc; }
